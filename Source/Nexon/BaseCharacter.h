@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BasePlayerController.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/InputComponent.h"
@@ -20,6 +21,9 @@ private:
 	float RotationX;
 	float RotationY;
 	FRotator Rotation;
+	bool * bUsesGamepad;
+
+	ABasePlayerController * PlayerController;
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
@@ -43,20 +47,18 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-
-	// Called for forwards/backward input 
-	void MoveForward(float Value);
-
-	// Called for side to side input 
-	void MoveRight(float Value);
-
 	void SetRotationX(float Value);
-
 	void SetRotationY(float Value);
-
+	void MoveForward(float Value);
+	void MoveForwardMouse(float Value);
+	void MoveRight(float Value);
+	void MoveRightMouse(float Value);
 	void Fire();
-
+	void FireMouse();
+	void StopFiring();
+	void StopFiringMouse();
 	void FireAlternative();
+	void FireAlternativeMouse();
 	
 };
 
