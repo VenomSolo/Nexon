@@ -46,15 +46,15 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	/*if (bUsesGamepad)
+	if (*bUsesGamepad)
 	{
-		Rotation = UKismetMathLibrary::FindLookAtRotation(this->GetTargetLocation(), this->GetTargetLocation() + FVector(RotationX, RotationY, 0));
+		Rotation = UKismetMathLibrary::FindLookAtRotation(this->GetTargetLocation(), this->GetTargetLocation() - FVector(RotationX, RotationY, 0));
 		this->SetActorRotation(Rotation);
-	}*/
-	{
+	}
+	else{
 		FHitResult hitResult;
 		PlayerController->GetHitResultUnderCursorForObjects(objects, true, hitResult);
-		this->SetActorRotation(FRotator(0.0f, UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), hitResult.ImpactPoint).Yaw*-1.0f, 0.0f));
+		this->SetActorRotation(FRotator(0.0f, UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), hitResult.ImpactPoint).Yaw, 0.0f));
 	}
 }
 
