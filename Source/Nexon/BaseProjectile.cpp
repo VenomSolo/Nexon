@@ -18,14 +18,16 @@ ABaseProjectile::ABaseProjectile()
 	
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->AttachToComponent(Collision, FAttachmentTransformRules::KeepWorldTransform, "Mesh");
-	Mesh->SetWorldScale3D(GetActorScale() * 0.8);
-	Mesh->SetRelativeLocation(GetActorLocation() - FVector(0.f, 0.f, 40.f));
+	//Mesh->SetWorldScale3D(GetActorScale() * 0.8);
+	//Mesh->SetRelativeLocation(GetActorLocation() - FVector(0.f, 0.f, 40.f));
 		
 	Projectile = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Projectile"));
 	Projectile->AttachToComponent(Collision, FAttachmentTransformRules::KeepWorldTransform, "Projectile");
 
 	OnProjectileHit = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("OnProjectileHit"));
 	OnProjectileHit->AttachToComponent(Collision, FAttachmentTransformRules::KeepWorldTransform, "OnProjectileHit");
+
+	Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
 
 	SetActorRotation(GetActorRotation() + FRotator(90.f, 0.f, 0.f));
 	//SetActorScale3D(GetActorScale() * 0.5);

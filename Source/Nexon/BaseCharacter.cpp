@@ -30,6 +30,8 @@ ABaseCharacter::ABaseCharacter()
 	Camera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	Camera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 	Camera->SetIsReplicated(false);
+
+	objects.Add((UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic)));
 }
 
 // Called when the game starts or when spawned
@@ -45,15 +47,14 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	if (bUsesGamepad)
+	if (*bUsesGamepad)
 	{
 		Rotation = UKismetMathLibrary::FindLookAtRotation(this->GetTargetLocation(), this->GetTargetLocation() + FVector(RotationX, RotationY, 0));
 		this->SetActorRotation(Rotation);
 	}
 	else {
 		FHitResult hitResult;
-		PlayerController->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_GameTraceChannel1), true, hitResult);
-		//ctrl->GetHitResultUnderCursorForObjects(objects, true, hitResult);
+		PlayerController->GetHitResultUnderCursorForObjects(objects, true, hitResult);
 		this->SetActorRotation(FRotator(0.0f, UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), hitResult.ImpactPoint).Yaw, 0.0f));
 	}
 }

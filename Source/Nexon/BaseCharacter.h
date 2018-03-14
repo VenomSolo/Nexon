@@ -22,6 +22,7 @@ private:
 	float RotationY;
 	FRotator Rotation;
 	bool * bUsesGamepad;
+	TArray<TEnumAsByte<EObjectTypeQuery>> objects;
 
 	ABasePlayerController * PlayerController;
 	/** Camera boom positioning the camera behind the character */
@@ -62,10 +63,3 @@ protected:
 	
 };
 
-/*"Plugins": [
-{
-"Name": "ActorPool",
-"Enabled": true,
-"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/66efc9b030dc4fbe9523d72b06f43a79"
-}
-]*/

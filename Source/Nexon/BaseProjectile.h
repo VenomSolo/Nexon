@@ -7,6 +7,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "BaseProjectile.generated.h"
 
 UCLASS()
@@ -16,18 +17,21 @@ class NEXON_API ABaseProjectile : public AActor
 
 public:
 	// Particle component for projectile
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Particles)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UParticleSystemComponent* Projectile;
 
 	// Particle component played when projectile hits something
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Particles)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UParticleSystemComponent* OnProjectileHit;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UCapsuleComponent* Collision;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* Mesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
+		class UProjectileMovementComponent* Movement;
 
 	
 public:	
