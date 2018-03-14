@@ -13,20 +13,12 @@ void ABasePlayerController::BeginPlay()
 
 void ABasePlayerController::SetControllerAsMouse()
 {
-	if (IsUsingGamepad) 
-	{ 
-		IsUsingGamepad = false; 
-		bShowMouseCursor = true;
-	}
+	if (IsUsingGamepad) { IsUsingGamepad = false; }
 }
 
 void ABasePlayerController::SetControllerAsGamepad()
 {
-	if (!IsUsingGamepad) 
-	{ 
-		IsUsingGamepad = true; 
-		bShowMouseCursor = false;
-	}
+	if (!IsUsingGamepad) { IsUsingGamepad = true; }
 }
 
 bool ABasePlayerController::IsControllerAGamepad() const

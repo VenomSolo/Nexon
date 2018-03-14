@@ -22,7 +22,6 @@ private:
 	float RotationY;
 	FRotator Rotation;
 	bool * bUsesGamepad;
-	TArray<TEnumAsByte<EObjectTypeQuery>> objects;
 
 	ABasePlayerController * PlayerController;
 	/** Camera boom positioning the camera behind the character */
