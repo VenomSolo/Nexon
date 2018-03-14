@@ -37,6 +37,32 @@ public:
 	ABaseCharacter();
 
 protected:
+	/*Side movement speed of our aircraft.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float SpeedHorizontal;
+	/*Set the forward speed of our aircraft.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float SpeedForward;
+	/*Set the backward speed of our aircraft.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float SpeedBackward;
+	/*Side tilting.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float Tilt;
+	/*Weight of aircraft that influence on its speed.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float Weight;
+	/*Number of tries. If our aircraft is destroyed, decreases by 1.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		int Lives;
+	/*This is a radius that can reach opponents.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float ShootRange;
+	/*This is how far our projectile hits.*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float ShootDistance;
+
+protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
