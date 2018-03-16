@@ -9,13 +9,15 @@ ABaseProjectile::ABaseProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Speed = 10.f;
+	Speed = 1.f;
 	Power = 1000.f;
 	ShieldPenetration = 100.f;
 		
 	Collision = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collision"));
 	RootComponent = Collision;
-	
+	Collision->SetCapsuleHalfHeight(60.f);
+	Collision->SetCapsuleRadius(26.f);
+		
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->AttachToComponent(Collision, FAttachmentTransformRules::KeepWorldTransform, "Mesh");
 	//Mesh->SetWorldScale3D(GetActorScale() * 0.8);
@@ -28,7 +30,11 @@ ABaseProjectile::ABaseProjectile()
 	OnProjectileHit->AttachToComponent(Collision, FAttachmentTransformRules::KeepWorldTransform, "OnProjectileHit");
 
 	Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
-
+	Movement->bInitialVelocityInLocalSpace = false;
+	Movement->ProjectileGravityScale = 0.f;
+	Movement->InitialSpeed = 300.f * Speed;
+	Movement->Velocity = FVector(-1.f, 0.f, 0.f);
+	
 	SetActorRotation(GetActorRotation() + FRotator(90.f, 0.f, 0.f));
 	//SetActorScale3D(GetActorScale() * 0.5);
 }
@@ -45,12 +51,10 @@ void ABaseProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
+	
 }
 
-void ABaseProjectile::MoveProjectile()
-{
-	//TODO...
-}
+
 
 
 
