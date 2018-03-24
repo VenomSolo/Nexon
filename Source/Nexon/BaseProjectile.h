@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine.h"
 #include "GameFramework/Actor.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "BaseProjectile.generated.h"
 
 UCLASS()
@@ -33,7 +35,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UProjectileMovementComponent* Movement;
 
+	UFUNCTION()
+		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	void OnTimerExpire();
 	
+
 public:	
 	// Sets default values for this actor's properties
 	ABaseProjectile();
@@ -52,6 +59,13 @@ protected:
 	// Projectile hit power for protection shields
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
 		float ShieldPenetration;	
+	// Delay for projectile destroying
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Parameters)
+		float DestroyDelay;
+
+	/*float ProjectileHitLocation;
+	float ProjectileHitRotation;
+	float ProjectileHitScale;*/
 
 public:	
 	// Called every frame
