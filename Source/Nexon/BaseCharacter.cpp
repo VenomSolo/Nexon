@@ -55,7 +55,7 @@ void ABaseCharacter::Tick(float DeltaTime)
 	else {
 		FHitResult hitResult;
 		PlayerController->GetHitResultUnderCursorForObjects(objects, true, hitResult);
-		this->SetActorRotation(FRotator(0.0f, UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), hitResult.ImpactPoint).Yaw, 0.0f));
+		GetMesh()->SetRelativeRotation(FRotator(0.0f, UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), hitResult.ImpactPoint).Yaw, 0.0f));
 	}
 }
 

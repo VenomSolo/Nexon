@@ -20,11 +20,7 @@ class NEXON_API ABaseProjectile : public AActor
 public:
 	// Particle component for projectile
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
-		class UParticleSystemComponent* Projectile;
-
-	// Particle component played when projectile hits something
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
-		class UParticleSystemComponent* OnProjectileHit;
+		class UParticleSystemComponent* Particle;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UCapsuleComponent* Collision;
@@ -35,9 +31,27 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UProjectileMovementComponent* Movement;
 
+	// Particle played when projectile hits something
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		TSubclassOf<UParticleSystem> HitParticle;
+	// Projectile movement speed
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float Speed;
+	// Projectile hit power for enemies
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float Power;
+	// Projectile hit power for protection shields
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float ShieldPenetration;
+	// Delay for projectile destroying
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Parameters)
+		float DestroyDelay;
+
+public:
+	/* TODO
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
+	*/
 	void OnTimerExpire();
 	
 
@@ -49,19 +63,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	// Projectile movement speed
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		float Speed;	
-	// Projectile hit power for enemies
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		float Power;	
-	// Projectile hit power for protection shields
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		float ShieldPenetration;	
-	// Delay for projectile destroying
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Parameters)
-		float DestroyDelay;
 
 	/*float ProjectileHitLocation;
 	float ProjectileHitRotation;
