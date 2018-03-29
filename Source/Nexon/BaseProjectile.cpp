@@ -15,7 +15,7 @@ ABaseProjectile::ABaseProjectile()
 	Collision->SetCapsuleHalfHeight(60.f);
 	Collision->SetCapsuleRadius(26.f);
 	Collision->bGenerateOverlapEvents = true;
-	//Collision->OnComponentBeginOverlap.AddDynamic(this, &ABaseProjectile::OnOverlapBegin);
+	Collision->OnComponentBeginOverlap.AddDynamic(this, &ABaseProjectile::OnOverlapBegin);
 
 	RootComponent = Collision;
 
@@ -31,8 +31,6 @@ ABaseProjectile::ABaseProjectile()
 	Movement->InitialSpeed = Speed;
 	
 	SetActorRotation(GetActorRotation() + FRotator(90.f, 0.f, 0.f));
-	
-	
 }
 
 // Called when the game starts or when spawned
@@ -46,36 +44,20 @@ void ABaseProjectile::BeginPlay()
 void ABaseProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	
 }
 
-/* TODO
+
 void ABaseProjectile::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
 	// Other Actor is the actor that triggered the event. Check that is not ourself
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
-	{
-		// Set ProjectileHit particle visible
-		
-
-		UParticleSystemComponent * SpawnEmitterAtLocation
-		(
-			const UObject * GetWorld(),
-			UParticleSystem * OnProjectileHit,
-			FVector ProjectileHitLocation,
-			FRotator ProjectileHitRotation,
-			FVector ProjectileHitScale,
-			bool bAutoDestroy = true
-		);
-
+	{		
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticle, GetActorLocation());	// Play HitParticle 
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Projectile hitted something");
-
 		FTimerHandle Timer;
 		GetWorld()->GetTimerManager().SetTimer(Timer, this, &ABaseProjectile::OnTimerExpire, DestroyDelay, false);
 	}
 }
-*/
 
 void ABaseProjectile::OnTimerExpire()
 {
