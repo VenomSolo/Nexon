@@ -208,7 +208,7 @@ void ABaseCharacter::DetachShield()
 
 void ABaseCharacter::AttachWeapon(int Index, UClass WeaponClass)
 {
-	if (GetCorpse() != nullptr && Weapons[Index] == nullptr)
+	if (GetCorpse() != nullptr && Weapons[Index] == nullptr && Index >= 0 && Index < GetCorpse()->SocketNames.Num())
 	GetWeapons()[Index] = GetWorld()->SpawnActor<ABaseWeapon>(&WeaponClass);
 	GetWeapons()[Index]->AttachToActor(Corpse, AttachmentRules, Corpse->SocketNames[Index]);
 	GetWeapons()[Index]->SetActorRelativeLocation(FVector(0, 0, 0));
@@ -216,7 +216,7 @@ void ABaseCharacter::AttachWeapon(int Index, UClass WeaponClass)
 
 void ABaseCharacter::DetachWeapon(int Index)
 {
-	if (GetCorpse() != nullptr && Weapons[Index] != nullptr)
+	if (GetCorpse() != nullptr && Weapons[Index] != nullptr&& Index >= 0 && Index < GetCorpse()->SocketNames.Num())
 	GetWeapons()[Index]->Destroy();
 	GetWeapons()[Index] = nullptr;
 }

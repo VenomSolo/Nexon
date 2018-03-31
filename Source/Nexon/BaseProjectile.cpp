@@ -53,7 +53,7 @@ void ABaseProjectile::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActo
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticle, GetActorLocation());	// Play HitParticle 
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Projectile hitted something");
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Projectile hit something");
 		FTimerHandle Timer;
 		GetWorld()->GetTimerManager().SetTimer(Timer, this, &ABaseProjectile::OnTimerExpire, DestroyDelay, false);
 	}
