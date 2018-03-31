@@ -169,3 +169,62 @@ void ABaseCharacter::FireAlternativeMouse()
 {
 }
 
+void ABaseCharacter::AttachCorpse(UClass CorpseClass)
+{
+	if (GetCorpse() == nullptr) 
+	{
+		Corpse = GetWorld()->SpawnActor<ABaseCorpse>(&CorpseClass);
+		Corpse->AttachToActor(this, AttachmentRules);
+		Movement->MaxWalkSpeed = Corpse->Speed;
+	}
+}
+
+void ABaseCharacter::DetachCorpse()
+{
+	if (Corpse != nullptr)
+	{
+		Corpse->Destroy();
+		Corpse = nullptr;
+	}
+}
+
+void ABaseCharacter::AttachShield(UClass ShieldClass)
+{
+	if (GetCorpse() != nullptr && GetShield() == nullptr) 
+	{
+		Shield = GetWorld()->SpawnActor<ABaseShield>(&ShieldClass);
+		GetShield()->AttachToActor(Corpse, AttachmentRules);
+	}
+}
+
+void ABaseCharacter::DetachShield()
+{
+	if (GetCorpse() != nullptr && GetShield() != nullptr)
+	{
+		GetShield()->Destroy();
+		Shield = nullptr;
+	}
+}
+
+void ABaseCharacter::AttachWeapon(int Index, UClass WeaponClass)
+{
+	if (GetCorpse() != nullptr && Weapons[Index] == nullptr)
+	GetWeapons()[Index] = GetWorld()->SpawnActor<ABaseWeapon>(&WeaponClass);
+	GetWeapons()[Index]->AttachToActor(Corpse, AttachmentRules, Corpse->SocketNames[Index]);
+	GetWeapons()[Index]->SetActorRelativeLocation(FVector(0, 0, 0));
+}
+
+void ABaseCharacter::DetachWeapon(int Index)
+{
+	if (GetCorpse() != nullptr && Weapons[Index] != nullptr)
+	GetWeapons()[Index]->Destroy();
+	GetWeapons()[Index] = nullptr;
+}
+
+void ABaseCharacter::InitializeProjectileSubPool()
+{
+	for (ABaseWeapon * Weapon : Weapons) 
+	{
+		AMainActorPool::InitializeSubPool(Weapon->Name);
+	}
+}

@@ -33,7 +33,7 @@ public:
 
 	// Particle played when projectile hits something
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		TSubclassOf<UParticleSystem> HitParticle;
+		UParticleSystem* HitParticle;
 	// Projectile movement speed
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
 		float Speed;
@@ -48,10 +48,9 @@ public:
 		float DestroyDelay;
 
 public:
-	/* TODO
+
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	*/
 	void OnTimerExpire();
 	
 

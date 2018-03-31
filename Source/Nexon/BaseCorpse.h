@@ -4,36 +4,34 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "BaseProjectile.h"
-#include "MainActorPool.h"
-#include "BaseWeapon.generated.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "BaseCorpse.generated.h"
 
 UCLASS()
-class NEXON_API ABaseWeapon : public AActor
+class NEXON_API ABaseCorpse : public AActor
 {
 	GENERATED_BODY()
 
 //Components
-private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
-		class UStaticMeshComponent* Mesh;
-
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class USkeletalMeshComponent* Mesh;
 
 //Variables
 public:
+	/*Speed of our aircraft.*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		TSubclassOf<ABaseProjectile> Projectile;
-
+		float Speed;
+	/*Number of tries. If our aircraft is destroyed, decreases by 1.*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		FName Name;
+		float Durability;
 
-private:
-	int32 AmmoPoolIndex;
 	TArray<FName> SocketNames;
 
 //Functions
-public:
-	void Fire();
+
+
+
 
 
 
@@ -47,7 +45,7 @@ public:
 //Engine stuff
 public:	
 	// Sets default values for this actor's properties
-	ABaseWeapon();
+	ABaseCorpse();
 
 protected:
 	// Called when the game starts or when spawned

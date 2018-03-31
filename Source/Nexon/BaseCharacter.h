@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "BasePlayerController.h"
+#include "BaseWeapon.h"
+#include "BaseShield.h"
+#include "BaseCorpse.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Camera/CameraComponent.h"
@@ -16,16 +20,8 @@ class NEXON_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+//Components
 private:
-	const FVector FORWARDVECTOR = FVector(1.0, 0.0, 0.0);
-	const FVector RIGHTVECTOR = FVector(0.0, 1.0, 0.0);
-	float RotationX;
-	float RotationY;
-	FRotator Rotation;
-	bool * bUsesGamepad;
-	TArray<TEnumAsByte<EObjectTypeQuery>> objects;
-
-	ABasePlayerController * PlayerController;
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
@@ -33,33 +29,44 @@ private:
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* Camera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCharacterMovementComponent* Movement;
+//Variables
+private:
+	ABaseCorpse* Corpse;
+	ABaseShield* Shield;
+	TArray<ABaseWeapon*> Weapons;
+	const FVector FORWARDVECTOR = FVector(1.0, 0.0, 0.0);
+	const FVector RIGHTVECTOR = FVector(0.0, 1.0, 0.0);
+	float RotationX;
+	float RotationY;
+	FRotator Rotation;
+	bool * bUsesGamepad;
+	TArray<TEnumAsByte<EObjectTypeQuery>> objects;
+	const FActorSpawnParameters &SpawnParameters = FActorSpawnParameters();
+	const FAttachmentTransformRules &AttachmentRules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
+	ABasePlayerController * PlayerController;
+
+//Functions
 public:
-	// Sets default values for this character's properties
-	ABaseCharacter();
-
+	FORCEINLINE ABaseCorpse* GetCorpse() {
+		return Corpse;
+	}
+	FORCEINLINE ABaseShield* GetShield() {
+		return Shield;
+	}
+	FORCEINLINE TArray<ABaseWeapon*> GetWeapons() {
+		return Weapons;
+	}
 protected:
-	/*Side movement speed of our aircraft.*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		float SpeedHorizontal;
-	/*Weight of aircraft that influence on its speed.*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		float Weight;
-	/*Number of tries. If our aircraft is destroyed, decreases by 1.*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		int Lives;
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-protected:
+	void AttachCorpse(UClass Corpse);
+	void DetachCorpse();
+	void AttachShield(UClass Shield);
+	void DetachShield();
+	void AttachWeapon(int Index, UClass WeaponClass);
+	void DetachWeapon(int Index);
+	void InitializeProjectileSubPool();
 	void SetRotationX(float Value);
 	void SetRotationY(float Value);
 	void MoveForward(float Value);
@@ -72,6 +79,32 @@ protected:
 	void StopFiringMouse();
 	void FireAlternative();
 	void FireAlternativeMouse();
+
+
+
+
+
+
+
+
+
+
+//Engine Stuff
+public:
+	// Sets default values for this character's properties
+	ABaseCharacter();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	
 };
 

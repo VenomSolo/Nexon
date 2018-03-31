@@ -28,10 +28,19 @@ private:
 	const FAttachmentTransformRules &AttachmentRules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
 	TArray<ABaseShieldPiece*> ShieldPieces;
 
+//Functions
 public:
 	void InitializeShield();
 
 
+
+
+
+
+
+
+
+//Engine stuff
 public:	
 	// Sets default values for this actor's properties
 	ABaseShield();
