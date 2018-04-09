@@ -15,24 +15,29 @@ class NEXON_API ABaseWeapon : public AActor
 
 //Components
 private:
+	//StaticMesh of this weapon
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* Mesh;
 
 
 //Variables
 public:
+	//Class of the projectile to be spawned when fired
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
 		TSubclassOf<ABaseProjectile> Projectile;
-
+	//Name of this weapon
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
 		FName Name;
 
 private:
+	//Index of SubPool with stored projectiles of class Projectile
 	int32 AmmoPoolIndex;
+	//List of sockets' names in which projectiles will be spawned
 	TArray<FName> SocketNames;
 
 //Functions
 public:
+	//Spawns projectiles in all sockets
 	void Fire();
 
 
