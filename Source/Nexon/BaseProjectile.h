@@ -22,12 +22,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UParticleSystemComponent* Particle;
 
+	/*Collision component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UCapsuleComponent* Collision;
 
+	/*StaticMesh component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UStaticMeshComponent* Mesh;
 
+	/*ProjectileMovement component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, meta = (AllowPrivateAccess = "true"))
 		class UProjectileMovementComponent* Movement;
 

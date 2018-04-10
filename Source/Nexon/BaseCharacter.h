@@ -34,22 +34,31 @@ private:
 		class UCharacterMovementComponent* Movement;
 //Variables
 private:
+	/*Pointers to aircraft components*/
 	ABaseCorpse* Corpse;
 	ABaseShield* Shield;
 	TArray<ABaseWeapon*> Weapons;
+	/*Constant vectors used for movement*/
 	const FVector FORWARDVECTOR = FVector(1.0, 0.0, 0.0);
 	const FVector RIGHTVECTOR = FVector(0.0, 1.0, 0.0);
+	/*Mouse pointer current coordinates used to determine rotation*/
 	float RotationX;
 	float RotationY;
+	/*Current aircraft rotation*/
 	FRotator Rotation;
+	/*Indicates what the current controller is*/
 	bool * bUsesGamepad;
+	/*Types of objects that mouse raycasts collide with*/
 	TArray<TEnumAsByte<EObjectTypeQuery>> objects;
+	/*Totally meaningless Rules that just MUST be here*/
 	const FActorSpawnParameters &SpawnParameters = FActorSpawnParameters();
 	const FAttachmentTransformRules &AttachmentRules = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
+	/*Pointer to PlayerController*/
 	ABasePlayerController * PlayerController;
 
 //Functions
 public:
+	//Getters for aircraft components
 	FORCEINLINE ABaseCorpse* GetCorpse() {
 		return Corpse;
 	}

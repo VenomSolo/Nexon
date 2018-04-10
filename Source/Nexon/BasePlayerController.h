@@ -17,15 +17,18 @@ class NEXON_API ABasePlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	//Defines current controller
 	bool IsUsingGamepad;
 
 private:
 	virtual void BeginPlay() override;
 
+	//Changes active controller
 	void SetControllerAsMouse();
 	void SetControllerAsGamepad();
 
 public:
+	//Cheks what is current controller
 	bool IsControllerAGamepad() const;
 	
 };
