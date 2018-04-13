@@ -16,14 +16,14 @@ void ABaseShieldPiece::DecreaseCurrentDurabilityOnHit(UPrimitiveComponent* HitCo
 	// If something hits Shield, then decrease current durability
 	ABaseProjectile Object;
 	CurrentDurability -= Object.ShieldPenetration;
-	if (CurrentDurability <= 0)
+	if (CurrentDurability <= 0) 
 	{
 		SetActorEnableCollision(false);		// Turn off collision
 		SetActorHiddenInGame(true);		// Hide Actor
 	}
 }
 
-void ABaseShieldPiece::OnTimer()
+void ABaseShieldPiece::StartRegenerate()
 {
 	if (CurrentDurability <= 0)
 	{
@@ -35,7 +35,7 @@ void ABaseShieldPiece::OnTimer()
 
 void ABaseShieldPiece::RegenerateDurability()
 {
-	if (CurrentDurability <= Durability)
+	if (CurrentDurability <= ShieldDurability)
 	{
 		CurrentDurability += RegenerationRate * GetWorld()->TimeSeconds;
 	}
@@ -50,7 +50,7 @@ void ABaseShieldPiece::RegenerateDurability()
 void ABaseShieldPiece::BeginPlay()
 {
 	Super::BeginPlay();
-	CurrentDurability = Durability;
+	CurrentDurability = ShieldDurability;
 }
 
 // Called every frame
@@ -58,7 +58,7 @@ void ABaseShieldPiece::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	RegenerateDurability();
-	OnTimer();
+	StartRegenerate();
 }
 
 

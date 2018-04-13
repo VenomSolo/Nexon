@@ -66,10 +66,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	/*float ProjectileHitLocation;
-	float ProjectileHitRotation;
-	float ProjectileHitScale;*/
-
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -17,7 +17,7 @@ class NEXON_API ABaseShieldPiece : public AActor
 public:
 	/*It defines, how durable is shield.*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		float Durability;
+		float ShieldDurability;
 	/*Defines how long takes to respawn a shield after destroing it.*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
 		float RespawnTime;
@@ -30,7 +30,7 @@ private:
 
 public:
 	void RegenerateDurability();
-	void OnTimer();
+	void StartRegenerate();
 	void DecreaseCurrentDurabilityOnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 public:	
