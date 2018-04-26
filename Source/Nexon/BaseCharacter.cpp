@@ -147,18 +147,36 @@ void ABaseCharacter::SetRotationY(float Value)
 
 void ABaseCharacter::Fire()
 {
+	DeepFire();
 }
 
 void ABaseCharacter::FireMouse()
 {
+	DeepFire();
+}
+
+void ABaseCharacter::DeepFire()
+{
+	for (ABaseWeapon * Weapon : NormalWeapons) {
+		Weapon->StartFire();
+	}
 }
 
 void ABaseCharacter::StopFiring()
 {
+	DeepStopFiring();
 }
 
 void ABaseCharacter::StopFiringMouse()
 {
+	DeepStopFiring();
+}
+
+void ABaseCharacter::DeepStopFiring()
+{
+	for (ABaseWeapon * Weapon : NormalWeapons) {
+		Weapon->StopFire();
+	}
 }
 
 void ABaseCharacter::FireAlternative()
@@ -166,6 +184,10 @@ void ABaseCharacter::FireAlternative()
 }
 
 void ABaseCharacter::FireAlternativeMouse()
+{
+}
+
+void ABaseCharacter::DeepFireAlternative()
 {
 }
 
@@ -209,16 +231,22 @@ void ABaseCharacter::DetachShield()
 void ABaseCharacter::AttachWeapon(int Index, UClass WeaponClass)
 {
 	if (GetCorpse() != nullptr && Weapons[Index] == nullptr && Index >= 0 && Index < GetCorpse()->SocketNames.Num())
-	GetWeapons()[Index] = GetWorld()->SpawnActor<ABaseWeapon>(&WeaponClass);
-	GetWeapons()[Index]->AttachToActor(Corpse, AttachmentRules, Corpse->SocketNames[Index]);
-	GetWeapons()[Index]->SetActorRelativeLocation(FVector(0, 0, 0));
+	{
+		Weapons[Index] = GetWorld()->SpawnActor<ABaseWeapon>(&WeaponClass);
+		Weapons[Index]->AttachToActor(Corpse, AttachmentRules, Corpse->SocketNames[Index]);
+		Weapons[Index]->SetActorRelativeLocation(FVector(0, 0, 0));
+		if (Weapons[Index]->WeaponType == EWeaponTypeEnum::VT_Normal ? NormalWeapons.Add(Weapons[Index]) : AlternativeWeapons.Add(Weapons[Index]));
+	}
 }
 
 void ABaseCharacter::DetachWeapon(int Index)
 {
 	if (GetCorpse() != nullptr && Weapons[Index] != nullptr&& Index >= 0 && Index < GetCorpse()->SocketNames.Num())
-	GetWeapons()[Index]->Destroy();
-	GetWeapons()[Index] = nullptr;
+	{
+		if (Weapons[Index]->WeaponType == EWeaponTypeEnum::VT_Normal ? NormalWeapons.Remove(Weapons[Index]) : AlternativeWeapons.Remove(Weapons[Index]));
+		Weapons[Index]->Destroy();
+		Weapons[Index] = nullptr;
+	}
 }
 
 void ABaseCharacter::InitializeProjectileSubPool()

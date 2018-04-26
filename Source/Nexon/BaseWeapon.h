@@ -8,6 +8,14 @@
 #include "MainActorPool.h"
 #include "BaseWeapon.generated.h"
 
+
+UENUM(BlueprintType)		//"BlueprintType" is essential to include
+enum class EWeaponTypeEnum : uint8
+{
+	VT_Normal 	UMETA(DisplayName = "Normal"),
+	VT_Alternative 	UMETA(DisplayName = "Alternative"),
+};
+
 UCLASS()
 class NEXON_API ABaseWeapon : public AActor
 {
@@ -28,18 +36,34 @@ public:
 	//Name of this weapon
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
 		FName Name;
+	//Indicates time of delay after firing once
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		float FireInterval;
+	//Index of SubPool with stored projectiles of class Projectile
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		int32 AmmoPoolIndex;
+	//Normal or altrnative?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
+		EWeaponTypeEnum WeaponType;
 
 private:
-	//Index of SubPool with stored projectiles of class Projectile
-	int32 AmmoPoolIndex;
+	//Describes current state
+	bool IsFiring;
 	//List of sockets' names in which projectiles will be spawned
 	TArray<FName> SocketNames;
+	//List of sockets' locations in which projectiles will be spawned
+	TArray<FTransform> SocketsLocations;
+	//Handles fire delay
+	FTimerHandle DelayTimer;
 
 //Functions
 public:
 	//Spawns projectiles in all sockets
 	void Fire();
-
+	//Starts firing loop
+	void StartFire();
+	//Stops firing loop
+	void StopFire();
 
 
 
