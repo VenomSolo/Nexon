@@ -23,7 +23,7 @@ void ABaseShieldPiece::DecreaseCurrentDurabilityOnHit(UPrimitiveComponent* HitCo
 	}
 }
 
-void ABaseShieldPiece::OnTimer()
+void ABaseShieldPiece::StartRegenerate()
 {
 	if (CurrentDurability <= 0)
 	{
@@ -35,7 +35,7 @@ void ABaseShieldPiece::OnTimer()
 
 void ABaseShieldPiece::RegenerateDurability()
 {
-	if (CurrentDurability <= Durability)
+	if (CurrentDurability <= ShieldDurability)
 	{
 		CurrentDurability += RegenerationRate * GetWorld()->TimeSeconds;
 	}
@@ -50,7 +50,7 @@ void ABaseShieldPiece::RegenerateDurability()
 void ABaseShieldPiece::BeginPlay()
 {
 	Super::BeginPlay();
-	CurrentDurability = Durability;
+	CurrentDurability = ShieldDurability;
 }
 
 // Called every frame
@@ -58,7 +58,7 @@ void ABaseShieldPiece::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	RegenerateDurability();
-	OnTimer();
+	StartRegenerate();
 }
 
 
