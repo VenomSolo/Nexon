@@ -38,6 +38,8 @@ private:
 	ABaseCorpse* Corpse;
 	ABaseShield* Shield;
 	TArray<ABaseWeapon*> Weapons;
+	TArray<ABaseWeapon*> NormalWeapons;
+	TArray<ABaseWeapon*> AlternativeWeapons;
 	/*Constant vectors used for movement*/
 	const FVector FORWARDVECTOR = FVector(1.0, 0.0, 0.0);
 	const FVector RIGHTVECTOR = FVector(0.0, 1.0, 0.0);
@@ -68,6 +70,12 @@ public:
 	FORCEINLINE TArray<ABaseWeapon*> GetWeapons() {
 		return Weapons;
 	}
+	FORCEINLINE TArray<ABaseWeapon*> GetNormalWeapons() {
+		return NormalWeapons;
+	}
+	FORCEINLINE TArray<ABaseWeapon*> GetAlternativeWeapons() {
+		return AlternativeWeapons;
+	}
 protected:
 	void AttachCorpse(UClass Corpse);
 	void DetachCorpse();
@@ -84,10 +92,13 @@ protected:
 	void MoveRightMouse(float Value);
 	void Fire();
 	void FireMouse();
+	void DeepFire();
 	void StopFiring();
 	void StopFiringMouse();
+	void DeepStopFiring();
 	void FireAlternative();
 	void FireAlternativeMouse();
+	void DeepFireAlternative();
 
 
 

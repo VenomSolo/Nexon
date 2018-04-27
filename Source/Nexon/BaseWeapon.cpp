@@ -6,9 +6,25 @@
 
 void ABaseWeapon::Fire()
 {
-	for (FName Socket : SocketNames) {
-		AMainActorPool::GetSubPoolIndex("Projectiles");
+	if (IsFiring == true)
+	{
+		int8 index = 0;
+		for (FName Socket : SocketNames) {
+			ABaseProjectile * NewProjectile = Cast<ABaseProjectile>(AMainActorPool::GetUnusedFromSubPool(SocketsLocations[index], AmmoPoolIndex));
+		}
 	}
+	GetWorldTimerManager().SetTimer(DelayTimer, &Fire, FireInterval, false);
+}
+
+void ABaseWeapon::StartFire()
+{
+	IsFiring = true;
+	Fire();
+}
+
+void ABaseWeapon::StopFire()
+{
+	IsFiring = false;
 }
 
 // Sets default values
@@ -19,6 +35,10 @@ ABaseWeapon::ABaseWeapon()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	SocketNames = Mesh->GetAllSocketNames();
+	for (FName &SocketName : SocketNames) 
+	{
+		SocketsLocations.Add(Mesh->GetSocketTransform(SocketName));
+	}
 }
 
 // Called when the game starts or when spawned

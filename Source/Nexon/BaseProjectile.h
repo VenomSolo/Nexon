@@ -45,15 +45,16 @@ public:
 		float Power;
 	// Projectile hit power for protection shields
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Parameters)
-		float ShieldPenetration;
+	    float ShieldPenetration;
 	// Delay for projectile destroying
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Parameters)
 		float DestroyDelay;
 
+	
 public:
 
 	UFUNCTION()
-		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	void OnTimerExpire();
 	
 
@@ -66,7 +67,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
