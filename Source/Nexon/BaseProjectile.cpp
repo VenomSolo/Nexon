@@ -20,10 +20,10 @@ ABaseProjectile::ABaseProjectile()
 	RootComponent = Collision;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	Mesh->AttachToComponent(Collision, FAttachmentTransformRules::KeepWorldTransform, "Mesh");
+	Mesh->SetupAttachment(Collision); 
 	
 	Particle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle"));
-	Particle->AttachToComponent(Collision, FAttachmentTransformRules::KeepWorldTransform, "Particle");
+	Particle->SetupAttachment(Collision);
 
 	Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
 	Movement->bInitialVelocityInLocalSpace = false;

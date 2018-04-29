@@ -50,12 +50,12 @@ void ABaseCharacter::Tick(float DeltaTime)
 	if (*bUsesGamepad)
 	{
 		Rotation = UKismetMathLibrary::FindLookAtRotation(this->GetTargetLocation(), this->GetTargetLocation() + FVector(RotationX, RotationY, 0));
-		this->SetActorRotation(Rotation);
+		Corpse->SetActorRelativeRotation(Rotation);
 	}
 	else {
 		FHitResult hitResult;
 		PlayerController->GetHitResultUnderCursorForObjects(objects, true, hitResult);
-		GetMesh()->SetRelativeRotation(FRotator(0.0f, UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), hitResult.ImpactPoint).Yaw, 0.0f));
+		Corpse->SetActorRelativeRotation(FRotator(0.0f, UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), hitResult.ImpactPoint).Yaw, 0.0f));
 	}
 }
 
@@ -191,13 +191,18 @@ void ABaseCharacter::DeepFireAlternative()
 {
 }
 
-void ABaseCharacter::AttachCorpse(UClass CorpseClass)
+void ABaseCharacter::AttachCorpse(UClass * CorpseClass)
 {
 	if (GetCorpse() == nullptr) 
 	{
-		Corpse = GetWorld()->SpawnActor<ABaseCorpse>(&CorpseClass);
+		Corpse = GetWorld()->SpawnActor<ABaseCorpse>(CorpseClass);
 		Corpse->AttachToActor(this, AttachmentRules);
-		Movement->MaxWalkSpeed = Corpse->Speed;
+		GetCharacterMovement()->MaxWalkSpeed = Corpse->Speed;
+		Weapons.SetNum(Corpse->SocketNames.Num());
+		for (ABaseWeapon * Weapon : Weapons)
+		{
+			Weapon = nullptr;
+		}
 	}
 }
 
@@ -210,11 +215,11 @@ void ABaseCharacter::DetachCorpse()
 	}
 }
 
-void ABaseCharacter::AttachShield(UClass ShieldClass)
+void ABaseCharacter::AttachShield(UClass * ShieldClass)
 {
 	if (GetCorpse() != nullptr && GetShield() == nullptr) 
 	{
-		Shield = GetWorld()->SpawnActor<ABaseShield>(&ShieldClass);
+		Shield = GetWorld()->SpawnActor<ABaseShield>(ShieldClass);
 		GetShield()->AttachToActor(Corpse, AttachmentRules);
 	}
 }
@@ -228,22 +233,24 @@ void ABaseCharacter::DetachShield()
 	}
 }
 
-void ABaseCharacter::AttachWeapon(int Index, UClass WeaponClass)
+void ABaseCharacter::AttachWeapon(int Index, UClass * WeaponClass)
 {
-	if (GetCorpse() != nullptr && Weapons[Index] == nullptr && Index >= 0 && Index < GetCorpse()->SocketNames.Num())
+	if (GetCorpse() != nullptr && Index >= 0 && Index < GetCorpse()->SocketNames.Num())
 	{
-		Weapons[Index] = GetWorld()->SpawnActor<ABaseWeapon>(&WeaponClass);
+		UE_LOG(LogTemp, Warning, TEXT("Siada"));
+		Weapons[Index] = GetWorld()->SpawnActor<ABaseWeapon>(WeaponClass);
 		Weapons[Index]->AttachToActor(Corpse, AttachmentRules, Corpse->SocketNames[Index]);
 		Weapons[Index]->SetActorRelativeLocation(FVector(0, 0, 0));
-		if (Weapons[Index]->WeaponType == EWeaponTypeEnum::VT_Normal ? NormalWeapons.Add(Weapons[Index]) : AlternativeWeapons.Add(Weapons[Index]));
+		Weapons[Index]->WeaponType == EWeaponTypeEnum::VT_Normal ? NormalWeapons.Add(Weapons[Index]) : AlternativeWeapons.Add(Weapons[Index]);
 	}
+	UE_LOG(LogTemp, Warning, TEXT("%d"), Corpse->SocketNames.Num());
 }
 
 void ABaseCharacter::DetachWeapon(int Index)
 {
 	if (GetCorpse() != nullptr && Weapons[Index] != nullptr&& Index >= 0 && Index < GetCorpse()->SocketNames.Num())
 	{
-		if (Weapons[Index]->WeaponType == EWeaponTypeEnum::VT_Normal ? NormalWeapons.Remove(Weapons[Index]) : AlternativeWeapons.Remove(Weapons[Index]));
+		Weapons[Index]->WeaponType == EWeaponTypeEnum::VT_Normal ? NormalWeapons.Remove(Weapons[Index]) : AlternativeWeapons.Remove(Weapons[Index]);
 		Weapons[Index]->Destroy();
 		Weapons[Index] = nullptr;
 	}

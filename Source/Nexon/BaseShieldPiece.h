@@ -30,7 +30,7 @@ private:
 
 public:
 	void RegenerateDurability();
-	void OnTimer();
+	void StartRegenerate();
 	void DecreaseCurrentDurabilityOnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 public:	

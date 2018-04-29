@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "BaseCorpse.generated.h"
 
 UCLASS()
@@ -15,7 +16,7 @@ class NEXON_API ABaseCorpse : public AActor
 //Components
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class USkeletalMeshComponent* Mesh;
+		class UStaticMeshComponent* Mesh;
 
 //Variables
 public:

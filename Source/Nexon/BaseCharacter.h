@@ -77,11 +77,16 @@ public:
 		return AlternativeWeapons;
 	}
 protected:
-	void AttachCorpse(UClass Corpse);
+	UFUNCTION(BlueprintCallable)
+	void AttachCorpse(UClass * Corpse);
+	UFUNCTION(BlueprintCallable)
 	void DetachCorpse();
-	void AttachShield(UClass Shield);
+	UFUNCTION(BlueprintCallable)
+	void AttachShield(UClass * Shield);
 	void DetachShield();
-	void AttachWeapon(int Index, UClass WeaponClass);
+	UFUNCTION(BlueprintCallable)
+	void AttachWeapon(int Index, UClass * WeaponClass);
+	UFUNCTION(BlueprintCallable)
 	void DetachWeapon(int Index);
 	void InitializeProjectileSubPool();
 	void SetRotationX(float Value);

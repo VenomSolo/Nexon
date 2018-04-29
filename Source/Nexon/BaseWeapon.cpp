@@ -10,10 +10,13 @@ void ABaseWeapon::Fire()
 	{
 		int8 index = 0;
 		for (FName Socket : SocketNames) {
-			ABaseProjectile * NewProjectile = Cast<ABaseProjectile>(AMainActorPool::GetUnusedFromSubPool(SocketsLocations[index], AmmoPoolIndex));
+			UE_LOG(LogTemp, Warning, TEXT("Shot"));
+			ABaseProjectile * NewProjectile = Cast<ABaseProjectile>(AMainActorPool::GetUnusedFromSubPool(SocketsLocations[index], "None", AmmoPoolIndex));
+			UE_LOG(LogTemp, Warning, TEXT("LULUL"));
+			NewProjectile->Movement->Velocity = Mesh->GetSocketQuaternion(Socket).GetForwardVector() * NewProjectile->Speed;
 		}
 	}
-	GetWorldTimerManager().SetTimer(DelayTimer, &Fire, FireInterval, false);
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &ABaseWeapon::Fire, FireInterval, false);
 }
 
 void ABaseWeapon::StartFire()
@@ -34,17 +37,17 @@ ABaseWeapon::ABaseWeapon()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	SocketNames = Mesh->GetAllSocketNames();
-	for (FName &SocketName : SocketNames) 
-	{
-		SocketsLocations.Add(Mesh->GetSocketTransform(SocketName));
-	}
 }
 
 // Called when the game starts or when spawned
 void ABaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+	SocketNames = Mesh->GetAllSocketNames();
+	for (FName &SocketName : SocketNames)
+	{
+		SocketsLocations.Add(Mesh->GetSocketTransform(SocketName));
+	}
 	
 }
 
